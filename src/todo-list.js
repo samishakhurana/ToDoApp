@@ -2,6 +2,8 @@ import React from "react";
 import "./index.css";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Footer from "./footer"
+import store from "./store"
 
 class TodoList extends React.Component {
     constructor(props) {
@@ -16,12 +18,14 @@ class TodoList extends React.Component {
         todoItems.push(item);
         this.setState({todoItems: todoItems})
         document.getElementsByClassName('input-text')[0].value = '';
+        store.dispatch({type: 'LIST_CHANGED', payload: todoItems})
     }
     removeItem(index) {
         let todoItems = this.state.todoItems
         todoItems.splice(index, 1)
         console.log(this.state.todoItems)
         this.setState({todoItems: todoItems})
+        store.dispatch({type: 'LIST_CHANGED', payload: todoItems})
     }
     render() {
         return(
@@ -42,6 +46,9 @@ class TodoList extends React.Component {
                         <input type="text" className="input-text" />
                         <button className="submit-button" onClick={this.addToList.bind(this)}>Add</button>
                     </div>
+                </div>
+                <div className="footer">
+                    <Footer />
                 </div>
             </div>
         )
